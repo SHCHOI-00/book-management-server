@@ -11,7 +11,17 @@ const borrowRoutes = require('./routes/borrowRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors({
+  origin: (origin, callback) => {
+    // 개발용: 모든 로컬 주소 허용
+    if (!origin || origin.startsWith('http://localhost:')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.use(express.json());
 
 // 라우터

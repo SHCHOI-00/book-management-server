@@ -62,6 +62,11 @@ exports.returnBook = async (req, res) => {
 };
 
 exports.getBorrows = async (req, res) => {
-  const borrows = await borrowRepo.find();
+  const userId = req.user.id;
+  const borrows = await borrowRepo.find({
+    where: { user: { id: userId } },
+    relations: ['book'], // 필요한 경우 book 정보 포함
+  });
   res.json(borrows);
 };
+
