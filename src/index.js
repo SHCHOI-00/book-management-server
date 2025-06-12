@@ -3,8 +3,9 @@ const cors = require('cors');
 require('dotenv').config();
 const { AppDataSource } = require('./data-source');
 
-// 🔹 라우터 임포트는 여기!
+// 라우터 임포트
 const authRoutes = require('./routes/authRoutes');
+const bookRoutes = require('./routes/bookRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,8 +13,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// 🔹 라우터는 미들웨어보다 아래에 있어야 함
+// 라우터
 app.use('/auth', authRoutes);
+app.use('/books', bookRoutes);
 
 // DB 연결 및 서버 시작
 AppDataSource.initialize()
