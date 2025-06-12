@@ -2,21 +2,49 @@ const { AppDataSource } = require('../data-source');
 const borrowRepo = AppDataSource.getRepository('Borrow');
 const bookRepo = AppDataSource.getRepository('Book');
 const userRepo = AppDataSource.getRepository('User');
+const { IsNull } = require('typeorm');
+
 
 exports.borrowBook = async (req, res) => {
   const { bookId } = req.body;
   const userId = req.user.id;
 
   const book = await bookRepo.findOneBy({ id: bookId });
-  if (!book || !book.available) return res.status(400).json({ error: 'Book unavailable' });
+  if (!book) {
+    return res.status(404).json({ error: 'Book not found' });
+  }
 
-  const borrow = borrowRepo.create({ book, user: { id: userId } });
+  if (!book.available) {
+    return res.status(400).json({ error: 'Book is already borrowed' });
+  }
+
+  // 🔒 이미 이 사용자가 이 책을 빌린 적 있는지 확인 (반납 안 한 상태)
+  const existingBorrow = await borrowRepo.findOne({
+    where: {
+      user: { id: userId },
+      book: { id: bookId },
+      returnDate: IsNull(),
+    },
+  });
+
+  if (existingBorrow) {
+    return res.status(400).json({ error: 'You have already borrowed this book' });
+  }
+
+  const borrow = borrowRepo.create({
+    book,
+    user: { id: userId },
+  });
+
   book.available = false;
 
   await bookRepo.save(book);
   await borrowRepo.save(borrow);
 
-  res.status(201).json({ message: 'Book borrowed successfully', borrow });
+  res.status(201).json({
+    message: 'Book borrowed successfully',
+    borrow,
+  });
 };
 
 exports.returnBook = async (req, res) => {
