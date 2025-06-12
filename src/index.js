@@ -6,6 +6,7 @@ const { AppDataSource } = require('./data-source');
 // 라우터 임포트
 const authRoutes = require('./routes/authRoutes');
 const bookRoutes = require('./routes/bookRoutes');
+const borrowRoutes = require('./routes/borrowRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +17,7 @@ app.use(express.json());
 // 라우터
 app.use('/auth', authRoutes);
 app.use('/books', bookRoutes);
+app.use('/borrows', borrowRoutes);
 
 // DB 연결 및 서버 시작
 AppDataSource.initialize()
