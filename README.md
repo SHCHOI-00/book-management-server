@@ -14,10 +14,12 @@ Node.js + Express + TypeORM + PostgreSQL 기반의 RESTful API 백엔드 서버�
 
 ```bash
 npm install
+```
 
 ### 2. 환경변수 설정
 .env 파일을 생성하고 다음 예시를 참고해 작성합니다:
 
+```bash
 PORT=3000
 
 DB_HOST=localhost
@@ -27,14 +29,13 @@ DB_PASSWORD=password
 DB_NAME=book_management
 
 JWT_SECRET=your_jwt_secret_key
-
+```
 참고: .env.example 파일을 제공합니다.
 
 ### 3. 서버 실행
-bash
-복사
-편집
+```bash
 npm start
+```
 
 ## ✅ 주요 기능
 
