@@ -39,20 +39,14 @@ npm start
 
 ## ✅ 주요 기능
 
-사용자 회원가입 및 로그인 (JWT 발급)
-
-도서 등록, 조회, 수정, 삭제
-
-도서 대출 및 반납
-
-관리자만 도서 삭제 가능
+- 사용자 회원가입 및 로그인 (JWT 발급)
+- 도서 등록, 조회, 수정, 삭제
+- 도서 대출 및 반납
+- 관리자만 도서 삭제 가능
 
 ## ✅ 기술 스택
 
-Node.js, Express
-
-TypeORM (PostgreSQL)
-
-JWT 인증
-
-dotenv 환경설정
+- Node.js, Express
+- TypeORM (PostgreSQL)
+- JWT 인증
+- dotenv 환경설정
